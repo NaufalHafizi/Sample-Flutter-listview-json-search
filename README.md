@@ -14,7 +14,7 @@
 
 Demo app
 
-![](ScopedModel.gif)
+![](ListviewSearch.gif)
 
 ## Getting Started
 
