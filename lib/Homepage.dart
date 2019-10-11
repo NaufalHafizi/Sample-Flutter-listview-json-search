@@ -3,7 +3,6 @@ import 'package:listview_jsonsearch_provider/destinationpage.dart';
 import 'package:provider/provider.dart';
 
 import 'Provider.dart';
-import 'model/namaNegeri.dart';
 
 class MyHomePage extends StatelessWidget {
   

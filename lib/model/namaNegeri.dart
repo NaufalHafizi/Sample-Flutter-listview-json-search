@@ -1,8 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-
-import '../Provider.dart';
-
 listNegeri(index, loccode) {
     switch(int.parse(loccode)){
       case 0: 
