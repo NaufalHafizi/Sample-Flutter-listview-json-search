@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:listview_jsonsearch_provider/destinationpage.dart';
 import 'package:provider/provider.dart';
@@ -19,54 +21,85 @@ class MyHomePage extends StatelessWidget {
     //final screenwidth = MediaQuery.of(context).size.width / 100;
 
 
-    return Scaffold(
-      appBar: new AppBar(title: new Text('Bas Location'),backgroundColor: Colors.red,),
-      body: new Container(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: screenheight * 1.5,),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(40))
-                ),
-                hintText: "Search location"
-              ),
-              onChanged: (text) {
-                text = text.toLowerCase();
-                allscreen.setlocationForDisplay = allscreen.locations.where((note){
-                  var locationName = note.locationName.toLowerCase();
-                  return locationName.contains(text);
-                }).toList();
+    Future<bool> _exit() {
+      return showDialog<Null>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: new Text('Exit Application ?'),
+          content: new Text(''),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('NO'),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
-            SizedBox(height: screenheight * 1.5,),
-            FutureBuilder(
-                future: hasitrun ? null : allscreen.fetchlocation(context),
-                builder: (context, snapshot){
-                  if (snapshot.hasData){
-                    hasitrun = true;
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: allscreen.getlocationForDisplay.length,
-                          itemBuilder: (context, index){
-                            return _listitem(context,index);
-                          },
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(child: new Container(child: new Center(child: new CircularProgressIndicator(),),));
-                  }
+            new FlatButton(
+              child: new Text('Yes'),
+              onPressed: () {
+                exit(0);
+              },
+            ),
+          ],
+        );
+      }
+      
+    );
+    }
+
+    return WillPopScope(
+      onWillPop: _exit,
+      child: Scaffold(
+        appBar: new AppBar(title: new Text('Bas Location'),backgroundColor: Colors.red,),
+        body: new Container(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: screenheight * 1.5,),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(40))
+                  ),
+                  hintText: "Search location"
+                ),
+                onChanged: (text) {
+                  text = text.toLowerCase();
+                  allscreen.setlocationForDisplay = allscreen.locations.where((note){
+                    var locationName = note.locationName.toLowerCase();
+                    return locationName.contains(text);
+                  }).toList();
                 },
               ),
-          ],
+              SizedBox(height: screenheight * 1.5,),
+              FutureBuilder(
+                  future: hasitrun ? null : allscreen.fetchlocation(context),
+                  builder: (context, snapshot){
+                    if (snapshot.hasData){
+                      hasitrun = true;
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: allscreen.getlocationForDisplay.length,
+                            itemBuilder: (context, index){
+                              return _listitem(context,index);
+                            },
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Expanded(child: new Container(child: new Center(child: new CircularProgressIndicator(),),));
+                    }
+                  },
+                ),
+            ],
+          ),
         ),
+        
       ),
-      
     );
   }
 
