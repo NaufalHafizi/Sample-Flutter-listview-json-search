@@ -10,6 +10,8 @@
 
 -Avoid Marksman during build
 
+-Exit app warning (willPopScope)
+
 Demo app
 
 ![](ScopedModel.gif)
